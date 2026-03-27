@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const favouriteController = require('../controllers/favourite.controller');
 const verifyAccessToken = require('../middlewares/authMiddleware');
 

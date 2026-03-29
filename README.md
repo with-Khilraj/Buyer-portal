@@ -3,9 +3,12 @@
 A full-stack real estate platform allowing brokers to manage users and buyers to save their favorite properties.
 
 ## ✨ Key Features
-- **Premium UI/UX**: Shrinking sidebar, seamless user drop-up menu, and real-time inline form validations.
-- **High Performance**: Route-level code splitting with `React.lazy`/`Suspense`, component memoization, image lazy loading, and debounced global search.
-- **Robust Validation**: End-to-end `Zod` schema validation paired with `react-hook-form` for bulletproof data integrity.
+- **Premium UI/UX**: Shrinking sidebar, seamless drop-up menu, and real-time inline form validations.
+- **Dynamic Identity Management**: Secure profile configuration enforcing locked `gender`-based local avatars, restricting arbitrary image injections.
+- **Elegant Notification System**: Integrated `react-toastify` for frictionless, highly-polished user feedback instead of intrusive browser alerts.
+- **Robust Validations & Security**: Strict end-to-end `Zod` validation parsing, explicit HTTP Error tracking, and cryptographically verified password change workflows.
+- **High Performance**: Route-level code splitting with `React.lazy`/`Suspense`, component memoization, and debounced global search.
+
 
 ## 📁 Project Structure
 

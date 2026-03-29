@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const verifyAccessToken = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    // Check for token in cookie first, then fall back to headers
+    const token = req.cookies?.accessToken || req.headers.authorization?.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ message: "No token provided "});
+        return res.status(401).json({ message: "No token provided"});
     }
 
     try {
@@ -12,7 +13,7 @@ const verifyAccessToken = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        return res.status(403).json({ message: "Failed to authenticate token"});
+        return res.status(401).json({ message: "Failed to authenticate token"});
     }
 };
 

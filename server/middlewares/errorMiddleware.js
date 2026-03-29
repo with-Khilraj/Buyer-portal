@@ -1,14 +1,10 @@
 const ApiError = require('../utils/ApiError');
 
 const errorHandler = (err, req, res, next) => {
-    let { statusCode, message } = err;
+    let statusCode = err.statusCode || 500;
+    let message = err.message || 'Internal Server Error';
 
-    if (!statusCode) {
-        statusCode = 500;
-        message = 'Internal Server Error';
-    }
-
-    res.locals.errorMessage = err.message;
+    res.locals.errorMessage = message;
 
     const response = {
         code: statusCode,

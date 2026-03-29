@@ -23,13 +23,17 @@ const userSchema = new mongoose.Schema({
         enum: ['buyer', 'seller', 'admin'], 
         default: 'buyer'
     },
+    gender: {
+        type: String,
+        enum: ['male', 'female'],
+        required: true,
+    },
     favourites: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'
         }
     ],
-    
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

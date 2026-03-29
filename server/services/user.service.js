@@ -39,7 +39,7 @@ const createUser = async (userData) => {
 const loginUserWithEmailAndPassword = async (email, password) => {
     const user = await User.findOne({ email }).select('+password');
     if (!user || !(await bcrypt.compare(password, user.password))) {
-        throw new ApiError(401, 'Incorrect email or password');
+        throw new ApiError(400, 'Incorrect email or password');
     }
     return user;
 };
@@ -53,9 +53,39 @@ const saveRefreshToken = async (token, userId) => {
     await refreshTokenEntry.save();
 };
 
+const updateUser = async (userId, updateData) => {
+    const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
+    if (!user) {
+        throw new ApiError(404, 'User not found');
+    }
+    return user;
+};
+
+const updatePassword = async (userId, currentPassword, newPassword) => {
+    const user = await User.findById(userId).select('+password');
+    if (!user || !(await bcrypt.compare(currentPassword, user.password))) {
+        throw new ApiError(400, 'Current password is incorrect');
+    }
+
+    if (await bcrypt.compare(newPassword, user.password)) {
+        throw new ApiError(400, 'New password cannot be the same as current password');
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    return user;
+};
+
+const getUserById = async (userId) => {
+    return await User.findById(userId);
+};
+
 module.exports = {
     generateTokens,
     createUser,
     loginUserWithEmailAndPassword,
     saveRefreshToken,
+    updateUser,
+    updatePassword,
+    getUserById,
 };

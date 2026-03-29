@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
 import { LayoutDashboard, User, LogOut, Menu, X, Settings, ChevronUp, Search } from 'lucide-react';
+import maleIcon from '../assets/male.png';
+import femaleIcon from '../assets/female.png';
 
 const MainLayout = ({ children }) => {
     const { user, logout } = useAuthStore();
@@ -60,6 +62,7 @@ const MainLayout = ({ children }) => {
                         <nav className="mt-8">
                             <NavItem icon={LayoutDashboard} label="Dashboard" to="/dashboard" />
                             <NavItem icon={Search} label="Marketplace" to="/dashboard?view=all" />
+                            <NavItem icon={User} label="Profile" to="/profile" />
                         </nav>
                     </div>
 
@@ -70,7 +73,7 @@ const MainLayout = ({ children }) => {
                                 <div className="p-2">
                                     <button 
                                         onClick={() => {
-                                            navigate('/dashboard?view=profile');
+                                            navigate('/profile');
                                             setIsUserMenuOpen(false);
                                             setIsSidebarOpen(false);
                                         }}
@@ -107,8 +110,12 @@ const MainLayout = ({ children }) => {
                             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                             className={`w-full flex items-center p-2 rounded-2xl transition-colors ${isUserMenuOpen ? 'bg-slate-50' : 'hover:bg-slate-50'}`}
                         >
-                            <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-serif text-xl border-2 border-secondary/20 shrink-0 mx-auto group-hover:mx-0 transition-all duration-300">
-                                {user?.name?.charAt(0)}
+                            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-secondary/20 shrink-0 mx-auto group-hover:mx-0 transition-all duration-300 bg-secondary/10">
+                                <img 
+                                    src={user?.gender === 'female' ? femaleIcon : maleIcon} 
+                                    alt={user?.name || 'User Avatar'} 
+                                    className="w-full h-full object-cover" 
+                                />
                             </div>
                             <div className="flex items-center justify-between w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-4 overflow-hidden">
                                 <div className="text-left overflow-hidden">

@@ -3,10 +3,10 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
 import PageLoader from '../components/PageLoader';
 
-// Lazy loaded pages to enable code splitting
 const LoginPage = React.lazy(() => import('../features/auth/pages/LoginPage'));
 const SignupPage = React.lazy(() => import('../features/auth/pages/SignupPage'));
 const Dashboard = React.lazy(() => import('../features/properties/pages/Dashboard'));
+const ProfilePage = React.lazy(() => import('../features/auth/pages/ProfilePage'));
 
 const ProtectedRoute = ({ children }) => {
     const { isAuthenticated } = useAuthStore();
@@ -37,6 +37,14 @@ export const router = createBrowserRouter([
         element: (
             <ProtectedRoute>
                 {withSuspense(Dashboard)}
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/profile',
+        element: (
+            <ProtectedRoute>
+                {withSuspense(ProfilePage)}
             </ProtectedRoute>
         ),
     },

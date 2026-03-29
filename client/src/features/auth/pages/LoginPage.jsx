@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../../schema/auth';
 import useAuthStore from '../../../store/useAuthStore';
 import { LogIn, Mail, Lock, Loader2 } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
     const { login, loading, error, clearError } = useAuthStore();
@@ -26,8 +27,10 @@ const LoginPage = () => {
         clearError();
         try {
             await login(data.email, data.password);
+            toast.success("Login successful");
             navigate('/dashboard');
         } catch (err) {
+            toast.error(err.response?.data?.message || err.message || "Invalid email or password");
             console.error(err);
         }
     };
@@ -75,8 +78,6 @@ const LoginPage = () => {
                         />
                         {errors.password && <p className="text-red-500 text-[10px] mt-1 italic font-semibold">{errors.password.message}</p>}
                     </div>
-
-                    {error && <p className="text-red-600 text-sm font-medium animate-bounce text-center">{error}</p>}
 
                     <button
                         type="submit"

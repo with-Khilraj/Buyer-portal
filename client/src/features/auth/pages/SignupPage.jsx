@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../../schema/auth';
 import useAuthStore from '../../../store/useAuthStore';
 import { UserPlus, Mail, Lock, User, Loader2 } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const SignupPage = () => {
     const { signup, loading, error, clearError } = useAuthStore();
@@ -26,8 +27,10 @@ const SignupPage = () => {
         clearError();
         try {
             await signup(data);
+            toast.success("Account created successfully");
             navigate('/dashboard');
         } catch (err) {
+            toast.error(err.response?.data?.message || err.message || "Signup failed");
             console.error(err);
         }
     };
@@ -87,8 +90,32 @@ const SignupPage = () => {
                         {errors.password && <p className="text-red-500 text-[10px] mt-1 italic font-semibold">{errors.password.message}</p>}
                     </div>
 
-
-                    {error && <p className="col-span-2 text-red-500 text-xs font-bold text-center uppercase tracking-tighter italic">{error}</p>}
+                    <div className="space-y-2 col-span-2">
+                        <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] flex items-center gap-2 mb-2">
+                            <User size={12} className="text-secondary" /> Select Gender
+                        </label>
+                        <div className="flex gap-6">
+                            <label className="flex items-center gap-2 text-sm text-slate-700 font-semibold cursor-pointer">
+                                <input
+                                    type="radio"
+                                    value="male"
+                                    {...register('gender')}
+                                    className="accent-primary w-4 h-4 cursor-pointer"
+                                />
+                                Male
+                            </label>
+                            <label className="flex items-center gap-2 text-sm text-slate-700 font-semibold cursor-pointer">
+                                <input
+                                    type="radio"
+                                    value="female"
+                                    {...register('gender')}
+                                    className="accent-primary w-4 h-4 cursor-pointer"
+                                />
+                                Female
+                            </label>
+                        </div>
+                        {errors.gender && <p className="text-red-500 text-[10px] mt-1 italic font-semibold">{errors.gender.message}</p>}
+                    </div>
 
                     <button
                         type="submit"
